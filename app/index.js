@@ -1,39 +1,41 @@
 
-let hello = require("./Hello"),
-    buy = require("./Buy"),
-    sell = require("./Sell")
-    output = require("./Output");
+// var hello = require("./Hello"),
+//     buy = require("./Buy"),
+//     sell = require("./Sell")
+//     output = require("./Output");
+
+var fulfillment = require('./fulfillment'),
+    validation = require('./validation');
 
 exports.handler = (event, context, callback) => {
 
-    let replyObject = {};
-
-    switch(event.currentIntent.name){
-        case 'Vanakkam':
-
-            replyObject = hello.greetings(event.inputTranscript);
+    switch(event.invocationSource){
+        case 'FulfillmentCodeHook':
+            callback(null, fulfillment.fulfilment(event, event.sessionAttributes));
             break;
-
-        case 'sell':
-            // replyObject.dialogAction.type = 'ElicitSlot';
-            // replyObject.dialogAction.intentName = 'buyandsell';
-            // replyObject.dialogAction.slots = {
-            //     'movie': '',
-            //     'theater':'',
-            //     'tickets':'',
-            //     'city': ''
-            // };
-            // let slotToElicit = Object.keys(event.currentIntent.slots).filter(value => {if(event.currentIntent.slots[value]){
-            //     replyObject.dialogAction.slots[value] = event.currentIntent.slots[value];
-            // } 
-            // return event.currentIntent.slots[value] == null;});
-            // console.log(slotToElicit);
-            // replyObject.dialogAction.slotToElicit = slotToElicit[0];
-            replyObject = sell.theatreSlot(event.currentIntent);
+        case 'DialogCodeHook':
+            callback(null, validation.validate(event.currentIntent, event.sessionAttributes));
             break;
-    }
-     console.log(event);
-     console.log(replyObject);
-    // TODO implement
-    callback(null,replyObject);
+    };
+
+    // var replyObject = {};
+
+    // switch(event.currentIntent.name){
+    //     case 'Vanakkam':
+
+    //         replyObject = hello.greetings(event.inputTranscript);
+    //         break;
+
+    //     case 'sell':
+    //         replyObject = sell.redirectToTheatre(event.currentIntent);
+    //         break;
+    //     case 'Theatre':
+    //         console.log('>>>> Shivanae success');
+    //         console.log(event.currentIntent);
+    //         break;
+    // }
+    //  console.log(event);
+    //  console.log(replyObject);
+    // // TODO implement
+    // callback(null,replyObject);
 };

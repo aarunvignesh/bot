@@ -1,5 +1,5 @@
 
-let closeSlot = (text) => {
+var closeSlot = (text) => {
     return {
         dialogAction:{
             type: "Close",
@@ -12,25 +12,26 @@ let closeSlot = (text) => {
     };
 },
 
-elicitSlot = (intent,session, slot) =>{
+elicitSlot = (intent, slotToElicit, session, slot) =>{
     return {
         sessionAttributes: session,
         dialogAction:{
             type: "ElicitSlot",
             intentName: intent,
-            slotToElicit:Object.keys(slot)[0],
+            slotToElicit: slotToElicit,
             slots: slot
         }
     };
 },
 
-confirmSlot = (intent, slot, text) => {
+confirmSlot = (intent, session, slot, text) => {
     return {
+        sessionAttributes: session,
         "dialogAction": {
             "type": "ConfirmIntent",
             "message": {
             "contentType": "PlainText",
-            "content": "text"
+            "content": text
             },
         "intentName": intent,
         "slots": slot

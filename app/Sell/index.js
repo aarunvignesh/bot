@@ -1,18 +1,7 @@
 
-let output = require("./../Output"),
-    moment = require("moment"),
-
-theatreSlot = (detail) => {
-
-    let slot = detail.slots,
-        date = moment(slot.showDate).toDate();
-    
-    return output.elicitSlot('Theatre', slot, {
-        theatreName: '',
-        city: ''
-    });
-};
+var validate = require("./Validation"),
+    moment = require("moment");
 
 module.exports = {
-    theatreSlot
+    validate
 };

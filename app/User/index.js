@@ -1,6 +1,10 @@
 
-var userConfirm = require('./Confirm');
+var userAskConfirm = require('./Confirm/confirm'),
+    editUserinfo = require('./Confirm/denied'),
+    updateUserinfo = require('./Confirm/update');
 
 module.exports = {
-   userConfirm
+   userAskConfirm,
+   editUserinfo,
+   updateUserinfo
 };

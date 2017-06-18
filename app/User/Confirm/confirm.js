@@ -1,7 +1,7 @@
 var output = require('./../../Output'),
     moment = require('moment');
 
-module.exports = function(slot, session){
+module.exports = function(slot, session, type){
     var mapper={
         "movie" : "Movie : ",
         "theatre": "Theatre : ",
@@ -10,12 +10,22 @@ module.exports = function(slot, session){
         "showDate":"Date : ",
         "showTime": "Time : ",
         "name": "Name : ",
-        "email":"Email : "
+        "email":"Email : ",
+        "comments":"comments : "
     },
     replyText = Object.keys(mapper)
                 .map(function(value){
                     if(slot[value]){
-                      return mapper[value] + slot[value];
+                        if(value == "showDate"){
+
+                            return mapper[value] + moment(slot[value]).format('DD-MM-YYYY');
+                        }
+                        else if(value == "showTime"){
+                             return mapper[value] + moment(slot['showDate']+'T'+slot[value]+'Z').format('LT');
+                        }
+                        else{
+                            return mapper[value] + slot[value];
+                        }
                     }
                     if(session[value]){
                          if(value == "showDate"){
@@ -29,7 +39,10 @@ module.exports = function(slot, session){
                             return mapper[value] + session[value];
                         }
                     }
-                }).join('    ');
-    replyText += '  Is it ok to continue to post it? (Yes/No)'
+                }).join('\n');
+    replyText += '\nIs it ok to continue and post it? (Yes/No)';
+    if(type){
+        session.type = type;
+    }
     return output.confirmSlot('user',session, slot, replyText);
 };

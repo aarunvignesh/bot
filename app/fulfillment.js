@@ -10,18 +10,22 @@ var hello = require('./Hello')
         case 'Vanakkam':
                 return hello.fulFill(input.inputTranscript); 
         case 'user':
+                console.log(input.currentIntent.confirmationStatus);
                 if(input.currentIntent.confirmationStatus === 'None')
                 {
-                    return user.userConfirm(input.currentIntent.slots,session);
+                    return user.userAskConfirm(input.currentIntent.slots,session);
                 }
                 else if(input.currentIntent.confirmationStatus === 'Denied') 
                 {
-
+                    return user.editUserinfo(input.currentIntent.slots,session);
                 }
                 else if(input.currentIntent.confirmationStatus === 'Confirmed')    
                 {
 
                 }
+                break ;
+        case 'edit':
+                return user.updateUserinfo(input.currentIntent.slots, session);
     }
 };
 

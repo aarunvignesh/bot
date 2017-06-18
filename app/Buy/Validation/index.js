@@ -26,6 +26,7 @@ module.exports = function(slot,session){
         var validationResult = validateReceivedFields(recieivedFields, slot);
 
         if(recieivedFields.length == 0){
+            console.log(recieivedFields);
             if(session){
                 Object.keys(session).forEach(function(value){
                     if(value != 'name' || value != 'email'){
@@ -36,30 +37,32 @@ module.exports = function(slot,session){
         }
 
         if(validationResult.err){
-            return output.elicitSlot('sell', validationResult.field, session, slot);
+            return output.elicitSlot('buy', validationResult.field, session, slot);
         }
         else{
             var questionOrder = [
                 "movie",
-                "theatre",
                 "ticketcount",
                 "showDate",
-                "showTime",
-                "city"
+                "city",
+                "comments"
             ],
             
             raiseQuestion = questionOrder.filter(function(value){return emptyFields.indexOf(value)>-1;});
 
             if(raiseQuestion.length > 0){
-                return output.elicitSlot('sell', raiseQuestion[0], session, slot);
+                return output.elicitSlot('buy', raiseQuestion[0], session, slot);
             }
             else{
-                if(session && session.email && session.name){ 
-                   Object.keys(slot).forEach(function(value){ session[value] = slot[value]}); 
-                   return userValidate.userAskConfirm({name: session.name, email: session.email},session, 'sell');
+                if(session && session.email && session.name){
+                    Object.keys(slot).forEach(function(value){ session[value] = slot[value]}); 
+                     return userValidate.userAskConfirm({
+                         name: session.name,
+                         email: session.email
+                     }, session, 'buy');
                 }
                 else{
-                    slot.type = 'sell';
+                    slot.type = 'buy';
                     return output.elicitSlot('user','name', slot, {
                         name: null,
                         email:null

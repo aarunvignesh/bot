@@ -8,12 +8,12 @@ var express = require('express'),
 function dburlformatter(db){
     var dbstring = '';
     if(db.username && db.password){
-        dbstring += db.username +'@'+ db.password + ':';
+        dbstring += db.username +':'+ db.password + '@';
     }
     dbstring += db.url + ':' + db.port + '/' + db.database;
     return 'mongodb://'+dbstring;
 };
-
+console.log(dburlformatter(settings.db));
 mongoose.connect(dburlformatter(settings.db));
 
 mongoose.connection.on('connected',function(){

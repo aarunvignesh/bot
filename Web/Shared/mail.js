@@ -6,7 +6,8 @@ var nodemailer = require('node-ses'),
 
 mailStartTemplate = `
 Hi {{name}},
-
+<br/>
+<br/>
 This is a mail regarding your Movie Ticket Resale
 <br/>
 <br/>
@@ -33,6 +34,8 @@ mailEndTemplate = `
 </table>
 
 Thank You,
+<br/>
+<br/>
 <b>Movie Bot</b>
 `,
 transporter = nodemailer.createClient({ key: 'AKIAID23WZ27X5PQIFGQ', secret: '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' }),

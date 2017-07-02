@@ -1,5 +1,6 @@
 
 var nodemailer = require('nodemailer'),
+    smtpTransport = require('nodemailer-smtp-transport'),
     bluebird = require('bluebird'); 
 
 mailStartTemplate = `
@@ -22,13 +23,13 @@ mailEndTemplate = `
 
 Thank 
 `,
-transporter = nodemailer.createTransport({
+transporter = nodemailer.createTransport(smtpTransport({
   service: 'Gmail',
       auth: {
-          user:  'pingme.team@gmail.com',
+          user: 'pingme.team@gmail.com',
           pass: 'shivaping2208'
       }
-  }),
+  })),
   
   sender = (to, body)=>{
       return new bluebird((resolve, reject) => {

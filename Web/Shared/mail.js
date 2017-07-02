@@ -8,19 +8,23 @@ mailStartTemplate = `
 Hi {{name}},
 
 This is a mail regarding your Movie Ticket Resale
-
-Your Transaction Id: {{uniqueId}} 
-
+<br/>
+<br/>
+Your Transaction Id: <b>{{uniqueId}}<b> 
+<br/>
+<br/>
 Note: Further transaction with us will be done with this Id
-
+<br/>
+<br/>
 We have found some buyers
-
-<table style="width:100%">
+<br/>
+<br/>
+<table style="width:100%; border:1px solid black;">
 <thead>
-<td style="width:10%;border:1px solid black;">S.No</td>
-<td style="width:15%;border:1px solid black;">Name</td>
-<td style="width:20%;border:1px solid black;">Email Id</td>
-<td style="width:55%;border:1px solid black;">Comment</td>
+<td style="width:10%;border:1px solid black;"><b>S.No</b></td>
+<td style="width:15%;border:1px solid black;"><b>Name</b></td>
+<td style="width:20%;border:1px solid black;"><b>Email Id</b></td>
+<td style="width:55%;border:1px solid black;"><b>Comment</b></td>
 </thead>
 <tbody>
 `,
@@ -73,6 +77,7 @@ module.exports = {
     sendEmail: function(result, document){
         return new bluebird((resolve,reject) => {
             mailStartTemplate = mailStartTemplate.replace('{{name}}', document.slot.name || '');
+            mailStartTemplate = mailStartTemplate.replace('{{uniqueId}}', document.uniqueId || '');
             var tableBody = result.map((value, index) => '<tr>'
                                     +'<td style="width:10%;border:1px solid black;">'+ (index + 1) +'</td>'
                                     +'<td style="width:15%;border:1px solid black;">'+ value.slot.name +'</td>'

@@ -12,21 +12,23 @@ theatre: 'shiva',
     showTime: '18:00',
     showDate: '2017-06-22',
     name:'arun',
-    email:'shiva',
+    email:'a.s.arunvignesh@gmail.com',
 type: 'sell'
  
 },
 bot: { name: 'awshelper', alias: null, version: '$LATEST' },
 outputDialogMode: 'Text',
 currentIntent: 
-{ name: 'edit',
+{ 
+name: 'user',
+confirmationStatus:'Confirmed',
 slots: { 
    editField: 'time'
+}
 },
-confirmationStatus: 'None' },
 inputTranscript: 'a.s.arunvignesh@gmail.com' };
 
 
 require('./index').handler(testObject,null,(a,b) => {
-    console.log(b);
+    //console.log(b);
 });

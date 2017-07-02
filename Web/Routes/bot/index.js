@@ -1,5 +1,7 @@
 var app = require('express')(),
     settings = require('./../../settings.json'),
+    ticketCoordinator = require('./../../Shared/jobs'),
+    shortid = require('shortid'),
     ticket = require('./../../Models/tickets');
 
 app.all('/bot/*',function(req,res,next){
@@ -16,8 +18,10 @@ app.all('/bot/*',function(req,res,next){
 });
 
 app.post('/bot/:type',function(req, res){
-    var body = req.body, 
-    ticketSchema = new ticket({userId : body.userId, type: body.type, slot: body});
+    var body = req.body;
+    body.uniqueId = shortid.generate();
+    body.createdAt = new Date();
+    var ticketSchema = new ticket(body);
     ticketSchema.save(function(err,doc){
         if(err){
             res.status(500).json({
@@ -26,8 +30,16 @@ app.post('/bot/:type',function(req, res){
             }); 
         }
         else{
+            switch(body.type.toLowerCase()){
+                case 'sell':
+                        ticketCoordinator.findBuyers(body);
+                        break;
+                case 'buy':
+                        break;
+            }
             res.status(200).json({
                 code:200,
+                id: doc.uniqueId,
                 message:'Shiva successfully saved'
             });    
         }         

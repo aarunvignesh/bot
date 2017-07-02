@@ -11,7 +11,9 @@ exports.handler = (event, context, callback) => {
 
     switch(event.invocationSource){
         case 'FulfillmentCodeHook':
-            callback(null, fulfillment.fulfilment(event, event.sessionAttributes));
+            fulfillment.fulfilment(event, event.sessionAttributes, event.userId).then((replyObject) => {
+                callback(null, replyObject);
+            });
             break;
         case 'DialogCodeHook':
             callback(null, validation.validate(event.currentIntent, event.sessionAttributes));

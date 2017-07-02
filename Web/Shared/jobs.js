@@ -6,19 +6,28 @@ var tickets = require('./../Models/tickets'),
 module.exports = {
     findBuyers: function(document){
 
-        var dayStartTime = new Date(document.time);
+        var dayStartTime = moment(new Date(document.time)).startOf('day');
 
-        dayStartTime.setHours(00);
-        dayStartTime.setTime(00);
-
-        tickets.find({
+        console.log({
                         time:{
-                                $lt: document.time, 
-                                $gt:dayStartTime
+                                $lt: new Date(document.time), 
+                                $gt: dayStartTime.toDate()
                         }, 
                         isenabled: true,
                         type:'buy',
-                        referCount:{$lt:5}, 
+                        //referCount:{$lt:5}, 
+                        'slot.movie':document.slot.movie.toLowerCase(),
+                        'slot.ticketcount': document.slot.ticketcount,
+                        //userId:{$ne:document.userId}
+        });
+        tickets.find({
+                        time:{
+                                $lt: new Date(document.time), 
+                                $gt:dayStartTime.toDate()
+                        }, 
+                        isenabled: true,
+                        type:'buy',
+                      //  referCount:{$lt:5}, 
                         'slot.movie':document.slot.movie.toLowerCase(),
                         'slot.ticketcount': document.slot.ticketcount,
                         //userId:{$ne:document.userId}

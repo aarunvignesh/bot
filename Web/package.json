@@ -13,6 +13,7 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongoose": "^4.10.6",
+    "node-ses": "^2.0.5",
     "nodemailer": "^4.0.1",
     "nodemailer-smtp-transport": "^2.7.4",
     "shortid": "^2.2.8"

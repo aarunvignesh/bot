@@ -1,5 +1,6 @@
 
-var nodemailer = require('nodemailer'),
+var nodemailer = require('node-ses'),
+    //nodemailer = require('nodemailer'),
     smtpTransport = require('nodemailer-smtp-transport'),
     bluebird = require('bluebird'); 
 
@@ -23,22 +24,25 @@ mailEndTemplate = `
 
 Thank 
 `,
-transporter = nodemailer.createTransport(smtpTransport({
-  service: 'Gmail',
-      auth: {
-          user: 'pingme.team@gmail.com',
-          pass: 'shivaping2208'
-      }
-  })),
+transporter = nodemailer.createClient({ key: 'AKIAID23WZ27X5PQIFGQ', secret: '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' }),
+
+// nodemailer.createTransport(smtpTransport({
+//   service: 'Gmail',
+//       auth: {
+//           user: 'pingme.team@gmail.com',
+//           pass: 'shivaping2208'
+//       }
+//   })),
   
   sender = (to, body)=>{
       return new bluebird((resolve, reject) => {
-             transporter.sendMail({
-                from: "Pingme Support",
+             transporter.sendEmail({
+                from: 'pingme.team@gmail.com',
+
                 to: to,
                 subject: 'Regarding ',
                 //text: 'Shiva',
-                html: body
+                message: body
                 }, 
                 function(error, response){
                 if(error){

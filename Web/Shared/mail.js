@@ -65,6 +65,8 @@ transporter = nodemailer.createClient({ key: 'AKIAID23WZ27X5PQIFGQ', secret: 'wy
 
 module.exports = {
     sendEmail: function(result, document){
+        console.log(result);
+        console.log(document);
         return new bluebird((resolve,reject) => {
             mailStartTemplate = mailStartTemplate.replace('{{name}}', document.slot.name);
             var tableBody = result.map((value, index) => '<tr>'

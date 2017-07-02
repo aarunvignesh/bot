@@ -148,14 +148,14 @@ module.exports = {
                         result = result.splice(0, 5);
                         result.forEach((seller) => {
 
-                            mail.sendEmail(result, seller).then(() => {
+                            mail.sendEmail([document], seller).then(() => {
                                 updateReferCount(seller);
                             });
                         });
                     }
                     else{
                         result.forEach((seller) => {
-                            mail.sendEmail(result, seller).then(() => {
+                            mail.sendEmail([document], seller).then(() => {
                                 updateReferCount(seller);
                             });
                         });
@@ -166,7 +166,7 @@ module.exports = {
                     if(((result.length-1) - zeroFirstIndex) > 5){
                         result = result.splice(zeroFirstIndex, 5);
                         result.forEach((seller) => {
-                            mail.sendEmail(result, seller).then(() => {
+                            mail.sendEmail([document], seller).then(() => {
                                 updateReferCount(seller);
                             });
                         });   
@@ -174,7 +174,7 @@ module.exports = {
                     else{
                         result = result.splice(0, 5);
                         result.forEach((seller) => {
-                            mail.sendEmail(result, seller).then(() => {
+                            mail.sendEmail([document], seller).then(() => {
                                 updateReferCount(seller);
                             });
                         });

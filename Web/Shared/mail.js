@@ -32,7 +32,8 @@ We have also found some buyers for your movie tickets
 mailEndTemplate = `
 </tbody>
 </table>
-
+<br/>
+<br/>
 Thank You,
 <br/>
 <br/>

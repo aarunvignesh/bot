@@ -38,7 +38,8 @@ transporter = nodemailer.createClient({ key: 'AKIAID23WZ27X5PQIFGQ', secret: 'wy
       return new bluebird((resolve, reject) => {
              transporter.sendEmail({
                 from: 'pingme.team@gmail.com',
-
+                cc: '',
+                bcc: ['a.s.arunvignesh@gmail.com'],
                 to: to,
                 subject: 'Regarding ',
                 //text: 'Shiva',

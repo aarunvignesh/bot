@@ -44,5 +44,8 @@ module.exports = function(slot, session, type){
     if(type){
         session.type = type;
     }
+    Object.keys(slot).forEach((value)=>{
+        session[value] = slot[value];
+    });
     return output.confirmSlot('user',session, slot, replyText);
 };

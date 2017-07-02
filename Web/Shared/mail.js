@@ -7,14 +7,20 @@ var nodemailer = require('node-ses'),
 mailStartTemplate = `
 Hi {{name}},
 
-This is mail regarding the 
+This is a mail regarding your Movie Ticket Resale
 
-<table>
+Your Transaction Id: {{uniqueId}} 
+
+Note: Further transaction with us will be done with this Id
+
+We have found some buyers
+
+<table style="width:100%">
 <thead>
-<td>S.No</td>
-<td>Name</td>
-<td>Email Id</td>
-<td>Comment</td>
+<td style="width:10%;border:1px solid black;">S.No</td>
+<td style="width:15%;border:1px solid black;">Name</td>
+<td style="width:20%;border:1px solid black;">Email Id</td>
+<td style="width:55%;border:1px solid black;">Comment</td>
 </thead>
 <tbody>
 `,
@@ -65,16 +71,14 @@ transporter = nodemailer.createClient({ key: 'AKIAID23WZ27X5PQIFGQ', secret: 'wy
 
 module.exports = {
     sendEmail: function(result, document){
-        console.log(result);
-        console.log(document);
         return new bluebird((resolve,reject) => {
-            mailStartTemplate = mailStartTemplate.replace('{{name}}', document.slot.name);
+            mailStartTemplate = mailStartTemplate.replace('{{name}}', document.slot.name || '');
             var tableBody = result.map((value, index) => '<tr>'
-                                    +'<td>'+ (index + 1) +'</td>'
-                                    +'<td>'+ value.slot.name +'</td>'
-                                    +'<td>'+ value.slot.email +'</td>'
-                                    +'<td>'+ value.slot.comments +'</td>'
-                                    +'</tr>').join(' ');
+                                    +'<td style="width:10%;border:1px solid black;">'+ (index + 1) +'</td>'
+                                    +'<td style="width:15%;border:1px solid black;">'+ value.slot.name +'</td>'
+                                    +'<td style="width:20%;border:1px solid black;">'+ value.slot.email +'</td>'
+                                    +'<td style="width:55%;border:1px solid black;">'+ value.slot.comments +'</td>'
+                                    +'</tr>').join(' '); 
 
             sender(document.slot.email, mailStartTemplate + tableBody + mailEndTemplate)
             .then(()=>{

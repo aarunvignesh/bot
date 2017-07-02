@@ -10,13 +10,13 @@ Hi {{name}},
 This is a mail regarding your Movie Ticket Resale
 <br/>
 <br/>
-Your Transaction Id: <b>{{uniqueId}}<b> 
+Your Transaction Id: <b>{{uniqueId}}</b> 
 <br/>
 <br/>
-Note: Further transaction with us will be done with this Id
+Note: Further transaction with us regarding this post will be done with this Id
 <br/>
 <br/>
-We have found some buyers
+We have also found some buyers for your movie tickets
 <br/>
 <br/>
 <table style="width:100%; border:1px solid black;">
@@ -32,7 +32,8 @@ mailEndTemplate = `
 </tbody>
 </table>
 
-Thank 
+Thank You,
+<b>Movie Bot</b>
 `,
 transporter = nodemailer.createClient({ key: 'AKIAID23WZ27X5PQIFGQ', secret: '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' }),
 

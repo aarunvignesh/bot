@@ -1,5 +1,6 @@
 var tickets = require('./../Models/tickets'),
     mongoose = require('mongoose'),
+    moment = require('moment'),
     mail = require('./mail');
 
 module.exports = {
@@ -92,16 +93,25 @@ module.exports = {
     },
 
 
-    findSellers : () => {
-            var dayEndTime = new Date(document.time);
-
-            dayEndTime.setHours(23);
-            dayEndTime.setTime(59);
-
+    findSellers : (document) => {
+            var dayEndTime = moment(new Date(document.time)).endOf('day');
+           
+            console.log({
+                            time:{
+                                    $gt: document.time, 
+                                    $lt: dayEndTime.toDate()
+                            }, 
+                            isenabled: true,
+                            type:'sell',
+                            referCount:{$lt:5}, 
+                            'slot.movie':document.slot.movie.toLowerCase(),
+                            'slot.ticketcount': document.slot.ticketcount,
+                            //userId:{$ne:document.userId}
+            });
             tickets.find({
                             time:{
                                     $gt: document.time, 
-                                    $lt: dayEndTime
+                                    $lt: dayEndTime.toDate()
                             }, 
                             isenabled: true,
                             type:'sell',

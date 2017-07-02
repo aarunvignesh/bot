@@ -9,11 +9,11 @@ theatre: 'shiva',
     ticketcount: 2,
     movie: 'Shivam',
     city: 'chennai',
-    showTime: '18:00',
-    showDate: '2017-06-22',
+    showTime: '14:00',
+    showDate: '2017-07-07',
     name:'arun',
     email:'a.s.arunvignesh@gmail.com',
-type: 'sell'
+type: 'buy'
  
 },
 bot: { name: 'awshelper', alias: null, version: '$LATEST' },

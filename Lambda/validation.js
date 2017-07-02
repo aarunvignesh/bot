@@ -8,7 +8,6 @@ var sell = require('./Sell'),
 var validate = (currentIntent,session)=>{
     switch(currentIntent.name){
         case 'sell':
-                console.log(sell.validate(currentIntent.slots, session));
            return  sell.validate(currentIntent.slots, session);
         case 'buy':
            return buy.validateBuy(currentIntent.slots, session);

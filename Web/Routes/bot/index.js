@@ -35,6 +35,7 @@ app.post('/bot/:type',function(req, res){
                         ticketCoordinator.findBuyers(body);
                         break;
                 case 'buy':
+                        ticketCoordinator.findSellers(doc);
                         break;
             }
             res.status(200).json({

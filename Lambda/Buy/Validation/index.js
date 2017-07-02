@@ -44,6 +44,7 @@ module.exports = function(slot,session){
                 "movie",
                 "ticketcount",
                 "showDate",
+                "showTime",
                 "city",
                 "comments"
             ],

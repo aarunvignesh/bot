@@ -47,4 +47,21 @@ app.post('/bot/:type',function(req, res){
     });
 });
 
+
+app.post('/delete', function(req, res){
+    var body = req.body;
+    ticket.update({uniqueId: body.uniqueId},{$set: {isenabled: false}})
+        .exec(function(err, result){
+            if(err){
+                res.status(500).json(err)
+            }
+            else{
+                res.status(200).json({
+                    code: 200,
+                    msg: 'Removed Successfully'
+                });
+            }
+        });
+});
+
 module.exports = app;

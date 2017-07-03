@@ -2,7 +2,8 @@
 var nodemailer = require('node-ses'),
     //nodemailer = require('nodemailer'),
     smtpTransport = require('nodemailer-smtp-transport'),
-    bluebird = require('bluebird'); 
+    bluebird = require('bluebird'),
+    config = require('./../settings.json'); 
 
 mailStartTemplate = `
 Hi {{name}},
@@ -14,7 +15,7 @@ This is a mail regarding your Movie Ticket Resale
 Your Transaction Id: <b>{{uniqueId}}</b> 
 <br/>
 <br/>
-Note: Further transaction with us regarding this post will be done with this Id
+Note: Further transaction regarding this post will be done using this Id
 <br/>
 <br/>
 We have also found some buyers for your movie tickets
@@ -24,8 +25,8 @@ We have also found some buyers for your movie tickets
 <thead>
 <td style="width:10%;border:1px solid black;"><b>S.No</b></td>
 <td style="width:15%;border:1px solid black;"><b>Name</b></td>
-<td style="width:20%;border:1px solid black;"><b>Email Id</b></td>
-<td style="width:55%;border:1px solid black;"><b>Comment</b></td>
+<td style="width:30%;border:1px solid black;"><b>Email Id</b></td>
+<td style="width:45%;border:1px solid black;"><b>Comment</b></td>
 </thead>
 <tbody>
 `,
@@ -39,7 +40,7 @@ Thank You,
 <br/>
 <b>Movie Bot</b>
 `,
-transporter = nodemailer.createClient({ key: '', secret: '' }),
+transporter = nodemailer.createClient({ key: config.aws.ses.accessKey, secret: config.aws.ses.secretKey }),
 
 // nodemailer.createTransport(smtpTransport({
 //   service: 'Gmail',
@@ -86,8 +87,8 @@ module.exports = {
             var tableBody = result.map((value, index) => '<tr>'
                                     +'<td style="width:10%;border:1px solid black;">'+ (index + 1) +'</td>'
                                     +'<td style="width:15%;border:1px solid black;">'+ value.slot.name +'</td>'
-                                    +'<td style="width:20%;border:1px solid black;">'+ value.slot.email +'</td>'
-                                    +'<td style="width:55%;border:1px solid black;">'+ value.slot.comments +'</td>'
+                                    +'<td style="width:30%;border:1px solid black;">'+ value.slot.email +'</td>'
+                                    +'<td style="width:45%;border:1px solid black;">'+ value.slot.comments +'</td>'
                                     +'</tr>').join(' '); 
 
             sender(document.slot.email, mailStartTemplate + tableBody + mailEndTemplate)

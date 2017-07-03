@@ -50,7 +50,7 @@ app.post('/bot/:type',function(req, res){
 
 app.post('/delete', function(req, res){
     var body = req.body;
-    ticket.update({uniqueId: body.uniqueId},{$set: {isenabled: false}})
+    ticket.update({uniqueId: body.uniqueId, isenabled: true},{$set: {isenabled: false}})
         .exec(function(err, result){
             if(err){
                 res.status(500).json(err)
@@ -58,7 +58,8 @@ app.post('/delete', function(req, res){
             else{
                 res.status(200).json({
                     code: 200,
-                    msg: 'Removed Successfully'
+                    msg: 'Removed Successfully',
+                    result : result
                 });
             }
         });

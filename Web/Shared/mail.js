@@ -39,7 +39,7 @@ Thank You,
 <br/>
 <b>Movie Bot</b>
 `,
-transporter = nodemailer.createClient({ key: 'AKIAID23WZ27X5PQIFGQ', secret: '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' }),
+transporter = nodemailer.createClient({ key: '', secret: '' }),
 
 // nodemailer.createTransport(smtpTransport({
 //   service: 'Gmail',

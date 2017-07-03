@@ -7,7 +7,6 @@ var output = require('./../../Output'),
 module.exports = function(slot, session, userId){
     return new Bluebird((resolve, reject) => {
 
-        console.log(session);
         document = {
             type: session.type,
             time:moment(session.showDate + 'T' + session.showTime).toDate(),
@@ -26,8 +25,6 @@ module.exports = function(slot, session, userId){
                 "X-TOKEN":"227c12d8-00fc-4b27-8c96-2cd8bbdf6f1f"
             }
         }).then((result)=>{
-            console.log('>>success');
-            console.log(result);
             var closeText = '';
             if(result.id){
                 closeText += 'Successfully Registered in our storage regarding your unique post reference id : '+ result.id;
@@ -35,8 +32,6 @@ module.exports = function(slot, session, userId){
             resolve(output.closeSlot(closeText + "\n\nThank you for your interest... We will update you shortly on your Email. \n\n In the mean time you can also try \n\n https://www.primevideo.com/"));
         },(result)=>{
             
-            console.log('>>error');
-            console.log(result);
              reject(output.closeSlot("We are getting unexpected error in our Ecosystem. Soon We will get back."));
         });
     });

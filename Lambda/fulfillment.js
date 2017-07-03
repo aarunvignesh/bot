@@ -6,12 +6,14 @@
 var Bluebird = require('bluebird')
 , hello = require('./Hello') 
 , user    = require('./User')
+, deleteRecord = require('./delete')
 , fulfilment = (input, session, userId) => {
     return new Bluebird((resolve, reject) => {
 
         switch(input.currentIntent.name){
             case 'Vanakkam':
                     resolve(hello.fulFill(input.inputTranscript)); 
+                    break;
             case 'user':
             
                     if(input.currentIntent.confirmationStatus === 'None')
@@ -33,6 +35,9 @@ var Bluebird = require('bluebird')
                     break ;
             case 'edit':
                     resolve(user.updateUserinfo(input.currentIntent.slots, session));
+                    break;
+            case 'removeticket':
+                    resolve(deleteRecord.delete(input.currentIntent.slots, session));
         }
     });
 };

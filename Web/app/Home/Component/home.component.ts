@@ -33,7 +33,7 @@ export class homeComponent implements OnInit{
   barChartLabels:Array<any> = [];
   barChartType:String="pie";
   selectedCity:string = "chennai";
-  cityList:Array<String> = []; 
+  cityList:Array<String> = ["chennai"]; 
 
   barChartOptions:any = {
     scaleShowVerticalLines: false,
@@ -65,6 +65,9 @@ export class homeComponent implements OnInit{
                 this.displaySellLegend = this.legendData[this.legendData.findIndex((value:any) => value.type == "sell")]
                 this.displayBuyLegend = this.legendData[this.legendData.findIndex((value:any) => value.type == "buy")];
                 this.cityList = this.chartData.filter((value:any) => value.type == "city")[0].result;
+                if(this.cityList.length == 0){
+                    this.cityList = ["chennai"];
+                }
                 this.updateChart();
            }
            else{

@@ -8,7 +8,7 @@ var fulfillment = require('./fulfillment'),
     validation = require('./validation');
 
 exports.handler = (event, context, callback) => {
-
+    console.log(event);
     switch(event.invocationSource){
         case 'FulfillmentCodeHook':
             fulfillment.fulfilment(event, event.sessionAttributes, event.userId).then((replyObject) => {

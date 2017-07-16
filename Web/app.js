@@ -48,7 +48,7 @@ mongoose.connection.on('connected',function(){
 
 app.use(body.urlencoded({extended: true}));
 app.use(body.json());
-app.set('Views', path.resolve(__dirname,'Views'));
+app.set('views', path.resolve(__dirname,'Views'));
 app.set('view engine','html');
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.resolve(__dirname, 'public')));

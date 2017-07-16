@@ -30,7 +30,7 @@ module.exports = function(slot, session, userId){
             if(result.id){
                 closeText += 'Successfully Registered in our storage regarding your unique post reference id : '+ result.id;
             }
-            resolve(output.closeSlot(closeText + "\n\nThank you for your interest... We will update you shortly on your Email. \n\n In the mean time you can also try \n\n https://www.primevideo.com/"));
+            resolve(output.closeSlot(closeText + "\n\nThank you for your interest... :+1::skin-tone-3: We will update you shortly on your Email. \n\n In the mean time you can also try \n\n https://www.primevideo.com/"));
         },(result)=>{
             
              reject(output.closeSlot("We are getting unexpected error in our Ecosystem. Soon We will get back."));

@@ -23,7 +23,7 @@ module.exports = (input) => {
             break;
     };
 
-    reply = (reply ? reply : 'Yes,')+' How can I help you today?';
+    reply = (reply ? reply : 'Yes,')+' How can I help you today? :wave::skin-tone-3:';
     return output.closeSlot(reply);
 };
 

@@ -40,7 +40,7 @@ module.exports = function(slot, session, type){
                         }
                     }
                 }).join('\n');
-    replyText += '\nIs it ok to continue and post it? (Yes/No)';
+    replyText += '\nKindly once again check your email address since we will be sending informations to this mail\nIs it ok to continue and post it? (Yes/No)';
     if(type){
         session.type = type;
     }

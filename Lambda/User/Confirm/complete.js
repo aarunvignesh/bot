@@ -15,7 +15,8 @@ module.exports = function(slot, session, userId){
         };
 
         document.slot.movie = document.slot.movie && document.slot.movie.toLowerCase(); 
-        console.log(config.web.url);
+        document.slot.city = document.slot.city && document.slot.city.toLowerCase(); 
+
          request({
             uri: config.web.url+'/bot/sell',
             method:'POST',

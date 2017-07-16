@@ -1,6 +1,7 @@
 var express = require('express'),
     body = require('body-parser'),
     mongoose = require('mongoose'),
+    path = require('path'),
     app = express(),
     routes = require('./Routes'),
     settings = require('./settings.json');
@@ -13,7 +14,7 @@ function dburlformatter(db){
     dbstring += db.url + ':' + db.port + '/' + db.database;
     return 'mongodb://'+dbstring;
 };
-console.log(dburlformatter(settings.db));
+
 mongoose.connect(dburlformatter(settings.db));
 
 mongoose.connection.on('connected',function(){
@@ -22,6 +23,11 @@ mongoose.connection.on('connected',function(){
 
 app.use(body.urlencoded({extended: true}));
 app.use(body.json());
+app.set('views', path.resolve(__dirname,'Views'));
+app.set('view engine','html');
+app.engine('html', require('ejs').renderFile);
+app.use(express.static(path.resolve(__dirname, 'public')));
+
 app.use(routes);
 
 app.listen(settings.port,function(){

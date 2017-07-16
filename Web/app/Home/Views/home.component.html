@@ -38,7 +38,7 @@
                 <md-spinner fxFLex="25"></md-spinner>
             </div>
             <div fxFlex fxLayout="row" *ngIf="chartData">
-                <div class="data-not-available" *ngIf="!displayBuyLegend">
+                <div class="data-not-available" *ngIf="chartData && !displayBuyLegend">
                     Data Not Available
                 </div>
                 <div fxFlex fxLayout="column" class="legend-container"  *ngIf="displayBuyLegend">
@@ -54,7 +54,7 @@
                 <md-spinner fxFLex="25"></md-spinner>
             </div>
             <div fxFlex *ngIf="chartData">
-                <div class="data-not-available" *ngIf="!displaySellLegend">
+                <div class="data-not-available" *ngIf="chartData && !displaySellLegend">
                     Data Not Available
                 </div>
                 <div fxFlex fxLayout="column" class="legend-container"  *ngIf="displaySellLegend">
@@ -72,7 +72,7 @@
             <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
                 <md-spinner fxFLex="25"></md-spinner>
             </div>
-            <div class="data-not-available" *ngIf="lineChartData.length == 0">
+            <div class="data-not-available" *ngIf="chartData && lineChartData.length == 0">
                     Data Not Available
             </div>
             <canvas *ngIf="lineChartData.length > 0" fxFlex="85" fxLayout="row" baseChart 
@@ -88,7 +88,7 @@
                 <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
                     <md-spinner fxFLex="25"></md-spinner>
                 </div>
-                <div class="data-not-available" *ngIf="pieChartData.length == 0">
+                <div class="data-not-available" *ngIf="chartData && pieChartData.length == 0">
                     Data Not Available
                 </div>
                 <canvas *ngIf="pieChartData.length > 0" fxFlex="30" baseChart 
@@ -100,7 +100,7 @@
                 <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
                     <md-spinner fxFLex="25"></md-spinner>
                 </div>
-                <div class="data-not-available" *ngIf="tableData.length == 0">
+                <div class="data-not-available" *ngIf="chartData && tableData.length == 0">
                     Data Not Available
                 </div>
                 <div fxFlex fxLayout="column" style="overflow:auto;" *ngIf="tableData.length > 0">
@@ -134,7 +134,7 @@
                 <md-spinner fxFLex="25"></md-spinner>
             </div>
             <div fxFlex fxLayout="row" *ngIf="pieChartData">
-                <div class="data-not-available" fxFlex *ngIf="pieChartData.length == 0">
+                <div class="data-not-available" fxFlex *ngIf="chartData && pieChartData.length == 0">
                     Data Not Available
                 </div>
                 <div fxFlex *ngIf="pieChartData.length > 0">

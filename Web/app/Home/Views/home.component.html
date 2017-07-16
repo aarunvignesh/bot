@@ -45,7 +45,7 @@
                     <span fxFlex="60"  [innerHtml]="displayBuyLegend.count"></span>
                     <span fxFlex="10" > Tickets Needed For </span>
                     <span fxFlex="20"  [innerHtml]="displayBuyLegend.movie"></span>
-                    <span fxFlex="10"> Avg. Expected Schow Time : {{displayBuyLegend.hour | number : '1.2-2'}}</span>
+                    <span fxFlex="10"> Avg. Expected Schow Time : {{ displayBuyLegend && displayBuyLegend.hour | number : '1.2-2'}}</span>
                 </div>
             </div>
         </md-card>
@@ -61,7 +61,7 @@
                     <span fxFlex="60"  [innerHtml]="displaySellLegend.count"></span>
                     <span fxFlex="10" > Tickets are in sale </span>
                     <span fxFlex="20" [innerHtml]="displaySellLegend.movie"></span>
-                    <span fxFlex="10"> Avg. Selling Schow Time : {{displayBuyLegend.hour | number : '1.2-2'}}</span>
+                    <span fxFlex="10"> Avg. Selling Schow Time : {{ displaySellLegend && displaySellLegend.hour | number : '1.2-2'}}</span>
                 </div>
             </div>
         </md-card>

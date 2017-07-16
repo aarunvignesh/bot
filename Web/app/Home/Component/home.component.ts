@@ -60,15 +60,17 @@ export class homeComponent implements OnInit{
         })
         .then((result: any)=>{
            if(result.status == 200){
+                console.log(result._body);
                 this.chartData = JSON.parse(result._body);
                 this.legendData = this.chartData.filter((value:any) => value.type == "legend").map((value:any) => value.result && value.result[0]);
-                this.displaySellLegend = this.legendData[this.legendData.findIndex((value:any) => value.type == "sell")]
-                this.displayBuyLegend = this.legendData[this.legendData.findIndex((value:any) => value.type == "buy")];
+                this.displaySellLegend = this.legendData[this.legendData.findIndex((value:any) => value && value.type == "sell")]
+                this.displayBuyLegend = this.legendData[this.legendData.findIndex((value:any) => value && value.type == "buy")];
                 this.cityList = this.chartData.filter((value:any) => value.type == "city")[0].result;
-                if(this.cityList.length == 0){
-                    this.cityList = ["chennai"];
+                
+                console.log(this.chartData.filter((value:any) => value.type == 'graph').map((value:any) => value.result).length > 0);
+                if(this.chartData.filter((value:any) => value.type == 'graph').map((value:any) => value.result).length > 0){
+                    this.updateChart();
                 }
-                this.updateChart();
            }
            else{
                this.chartData = null;

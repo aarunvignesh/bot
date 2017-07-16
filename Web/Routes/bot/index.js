@@ -21,6 +21,14 @@ app.post('/bot/:type',function(req, res){
     var body = req.body;
     body.uniqueId = shortid.generate();
     body.createdAt = new Date();
+    body.slot.ticketcount = parseInt(body.slot.ticketcount);
+    var email = body.slot.email.split("|");
+    if(email.length == 2){
+        body.slot.email = body.slot.email[1];
+    }
+    else{
+        body.slot.email = body.slot.email[0];
+    }
     var ticketSchema = new ticket(body);
     ticketSchema.save(function(err,doc){
         if(err){

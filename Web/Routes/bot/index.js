@@ -25,10 +25,10 @@ app.post('/bot/:type',function(req, res){
     if(body.slot.email.indexOf("mailto:") > -1){
         var email = body.slot.email.split("|");
         if(email.length == 2){
-            body.slot.email = body.slot.email[1];
+            body.slot.email = email[1];
         }
         else{
-            body.slot.email = body.slot.email[0];
+            body.slot.email = email[0];
         }
     }
     

@@ -12,7 +12,12 @@ export class httpService{
     getDataForCharts(query:Object){
        var queryString:String = "";
        for(var key in query){
-           queryString += key +"="+moment(query[key]).format("YYYY-MM-DD")+"&";
+           if(query[key].type == "date"){
+                queryString += key +"="+moment(query[key].value).format("YYYY-MM-DD")+"&";
+           }
+           else{
+               queryString += key +"="+(query[key].value)+"&";
+           }
        } 
        return this.http
                 .get('/data/all'+(queryString ? ("?"+queryString):""))

@@ -1,21 +1,34 @@
 <div fxLayout="column">
     <div fxFlex="10" fxLayout="row">
-            <div fxFlex="60"></div>
-            <div fxFlex="40" fxLayout="row">
-                <div fxFlex="50">
+            <div fxFlex="70">
+                <div fxFlex="80" fxLayout="row">
+                    <a style="background:url(./images/ticket.png);background-size: contain;background-repeat: no-repeat;" href="./" fxFlex="10"></a>
+                </div>
+                <div fxFlex="20" fxLayout="row" fxLayoutAlign="end center">
+                    <md-select placeholder="City" [(ngModel)]="selectedCity" (ngModelChange)="dateChanged()">
+                    <md-option *ngFor="let city of cityList" [value]="city" style="text-transform:capitalize;">
+                        {{ city }}
+                    </md-option>
+                    </md-select>
+                </div>
+            </div>
+            <div fxFlex="30" fxLayout="row">
+                <div fxFlex="10"></div>
+                <div fxFlex="35">
                     <md-input-container>
-                        <input mdInput [(ngModel)]="fromDate" (ngModelChange)="dateChanged()"  [mdDatepicker]="fromPicker" placeholder="Choose a from date">
+                        <input mdInput readonly="true" [(ngModel)]="fromDate" (ngModelChange)="dateChanged()"  [mdDatepicker]="fromPicker" placeholder="Choose a from date">
                         <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
                         </md-input-container>
                     <md-datepicker #fromPicker></md-datepicker>
                 </div>
-                <div fxFlex="50">
+                <div fxFlex="35">
                     <md-input-container>
-                        <input mdInput [(ngModel)]="toDate" (ngModelChange)="dateChanged()" [mdDatepicker]="toPicker" placeholder="Choose a to date">
+                        <input mdInput readonly="true" [(ngModel)]="toDate" (ngModelChange)="dateChanged()" [mdDatepicker]="toPicker" placeholder="Choose a to date">
                         <button mdSuffix [mdDatepickerToggle]="toPicker"></button>
                         </md-input-container>
                     <md-datepicker #toPicker></md-datepicker>
                 </div>
+                <a fxFlex="20" style="background:url(./images/logout.png);background-size: contain;background-repeat: no-repeat;" href="./logout"></a>
             </div>
     </div>
     <div id="container" fxFlex="90"  fxLayout="row">
@@ -25,14 +38,14 @@
                 <md-spinner fxFLex="25"></md-spinner>
             </div>
             <div fxFlex fxLayout="row" *ngIf="chartData">
-                <div *ngIf="!displayBuyLegend">
+                <div class="data-not-available" *ngIf="!displayBuyLegend">
                     Data Not Available
                 </div>
                 <div fxFlex fxLayout="column" class="legend-container"  *ngIf="displayBuyLegend">
                     <span fxFlex="60"  [innerHtml]="displayBuyLegend.count"></span>
                     <span fxFlex="10" > Tickets Needed For </span>
                     <span fxFlex="20"  [innerHtml]="displayBuyLegend.movie"></span>
-                    <span fxFlex="10"> Avg. Expected Schow Time : {{displayBuyLegend.hour}}</span>
+                    <span fxFlex="10"> Avg. Expected Schow Time : {{displayBuyLegend.hour | number : '1.2-2'}}</span>
                 </div>
             </div>
         </md-card>
@@ -41,14 +54,14 @@
                 <md-spinner fxFLex="25"></md-spinner>
             </div>
             <div fxFlex *ngIf="chartData">
-                <div *ngIf="!displaySellLegend">
+                <div class="data-not-available" *ngIf="!displaySellLegend">
                     Data Not Available
                 </div>
                 <div fxFlex fxLayout="column" class="legend-container"  *ngIf="displaySellLegend">
                     <span fxFlex="60"  [innerHtml]="displaySellLegend.count"></span>
                     <span fxFlex="10" > Tickets are in sale </span>
                     <span fxFlex="20" [innerHtml]="displaySellLegend.movie"></span>
-                    <span fxFlex="10"> Avg. Selling Schow Time : {{displayBuyLegend.hour}}</span>
+                    <span fxFlex="10"> Avg. Selling Schow Time : {{displayBuyLegend.hour | number : '1.2-2'}}</span>
                 </div>
             </div>
         </md-card>
@@ -58,6 +71,9 @@
         <md-card fxFlex="60" fxLayoutAlign="center center" fxLayout="row">
             <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
                 <md-spinner fxFLex="25"></md-spinner>
+            </div>
+            <div class="data-not-available" *ngIf="lineChartData.length == 0">
+                    Data Not Available
             </div>
             <canvas *ngIf="lineChartData.length > 0" fxFlex="85" fxLayout="row" baseChart 
                 [datasets]="lineChartData"
@@ -69,8 +85,11 @@
         <div fxLayoutGap="5px" fxLayout="row" fxFlex="40">
             
             <md-card fxFlex="60" fxLayout="column">
-                <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="barChartData.length == 0">
+                <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
                     <md-spinner fxFLex="25"></md-spinner>
+                </div>
+                <div class="data-not-available" *ngIf="pieChartData.length == 0">
+                    Data Not Available
                 </div>
                 <canvas *ngIf="pieChartData.length > 0" fxFlex="30" baseChart 
                 [data]="barChartData"
@@ -78,8 +97,11 @@
                 [chartType]="barChartType"></canvas>
             </md-card>
             <md-card fxFlex="40" fxLayout="row">
-                <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="tableData.length == 0">
+                <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
                     <md-spinner fxFLex="25"></md-spinner>
+                </div>
+                <div class="data-not-available" *ngIf="tableData.length == 0">
+                    Data Not Available
                 </div>
                 <div fxFlex fxLayout="column" style="overflow:auto;" *ngIf="tableData.length > 0">
                     <div class="table-header" fxLayout="row">
@@ -112,7 +134,7 @@
                 <md-spinner fxFLex="25"></md-spinner>
             </div>
             <div fxFlex fxLayout="row" *ngIf="pieChartData">
-                <div fxFlex *ngIf="pieChartData.length == 0">
+                <div class="data-not-available" fxFlex *ngIf="pieChartData.length == 0">
                     Data Not Available
                 </div>
                 <div fxFlex *ngIf="pieChartData.length > 0">

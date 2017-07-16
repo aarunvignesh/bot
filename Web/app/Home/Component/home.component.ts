@@ -32,6 +32,8 @@ export class homeComponent implements OnInit{
   barChartData:Array<any> = [];
   barChartLabels:Array<any> = [];
   barChartType:String="pie";
+  selectedCity:string = "chennai";
+  cityList:Array<String> = []; 
 
   barChartOptions:any = {
     scaleShowVerticalLines: false,
@@ -52,15 +54,17 @@ export class homeComponent implements OnInit{
 
   loadAllCharts(){
       this.http.getDataForCharts({
-          fromDate:this.fromDate,
-          toDate: this.toDate
+          fromDate:{type:"date",value:this.fromDate},
+          toDate: {type:"date",value:this.toDate},
+          city: {type:"string",value:this.selectedCity}
         })
         .then((result: any)=>{
            if(result.status == 200){
                 this.chartData = JSON.parse(result._body);
                 this.legendData = this.chartData.filter((value:any) => value.type == "legend").map((value:any) => value.result && value.result[0]);
                 this.displaySellLegend = this.legendData[this.legendData.findIndex((value:any) => value.type == "sell")]
-                this.displayBuyLegend = this.legendData[this.legendData.findIndex((value:any) => value.type == "buy")]
+                this.displayBuyLegend = this.legendData[this.legendData.findIndex((value:any) => value.type == "buy")];
+                this.cityList = this.chartData.filter((value:any) => value.type == "city")[0].result;
                 this.updateChart();
            }
            else{
@@ -90,7 +94,7 @@ export class homeComponent implements OnInit{
            var dataList = self.graphData.filter((chartValue :any) => chartValue.movie == movieValue),
            data = self.dateRangeList.map((dateValue:Date)=>{
               var trendCalc = dataList.filter(function(stepValue: any){
-                  var havingDate = moment(dateValue).startOf('day'), stepDate = moment(new Date(stepValue.date.year+'/'+stepValue.date.month+'/'+stepValue.date.day)).startOf('day');
+                  var havingDate = moment(dateValue).startOf('day'), stepDate = moment(new Date(stepValue.date.year+'-'+(stepValue.date.month)+'-'+stepValue.date.day)).startOf('day');
                   return havingDate.date() == stepDate.date() && havingDate.month() == stepDate.month() && havingDate.year() == stepDate.year();
               });
               var count = 0;
@@ -179,6 +183,8 @@ export class homeComponent implements OnInit{
 
   dateChanged(){
     if(moment(this.toDate).isAfter(this.fromDate)){
+        this.displaySellLegend = null;
+        this.displayBuyLegend = null;
         this.dateRange = moment(this.toDate).diff(this.fromDate,'days');
         this.dateRangeList = [];
         this.dateRangeList.push(this.fromDate);
@@ -188,6 +194,11 @@ export class homeComponent implements OnInit{
         this.chartData = null;
         this.lineChartData = [];
         this.lineChartLabels = [];
+        this.pieChartData = [];
+        this.pieChartLabels = [];
+        this.barChartData = [];
+        this.barChartLabels = [];
+        this.tableData = [];
         this.loadAllCharts();
     }
   };

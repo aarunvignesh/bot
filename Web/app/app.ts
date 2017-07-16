@@ -11,12 +11,25 @@ import { ChartsModule } from 'ng2-charts';
 
 import { homeComponent } from "./Home/Component/home.component";
 import { AppComponent } from "./Core/Component/App.component";
+import { loginComponent } from "./Login/Component/login.component";
 import { httpService } from "./Core/Services/http.service";
+import { loginService } from "./Login/Service/login.service";
 
 const Route: Routes = [
     {
+        path:'home',
+        component: homeComponent,
+        canActivate:[loginService]
+    },
+    {
+        path:'login',
+        component: loginComponent,
+        canActivate:[loginService]
+    },
+    {
         path:'',
-        component: homeComponent
+        redirectTo:'/login',
+        pathMatch: 'full'
     }
 ];
 
@@ -34,10 +47,12 @@ const Route: Routes = [
     ],
     declarations:[
         homeComponent,
+        loginComponent,
         AppComponent
     ],
     providers:[
-        httpService
+        httpService,
+        loginService
     ],
     bootstrap:[
         AppComponent

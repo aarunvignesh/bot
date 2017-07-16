@@ -11,7 +11,7 @@ var findMovieWithHighestBuyers = (type,options) => {
                 {
                     $match:{
                             time: { $gt :  options.fromDate , $lt : options.toDate },
-                            "slot.city": "chennai",
+                            "slot.city": options.city,
                             "type": type,
                             "isenabled":true
                         }
@@ -39,7 +39,7 @@ findTrend = (options) => {
                 {
                     $match:{
                             time: { $gt :  options.fromDate , $lt : options.toDate },
-                            "slot.city": "chennai"
+                            "slot.city": options.city
                         }
                 },
                 {$group:{_id:{"movie":"$slot.movie","type":"$slot.type",
@@ -64,11 +64,24 @@ findTrend = (options) => {
             }
         });
     });
+},
+
+getCityList = (options) => {
+    return new bluebird((resolve, reject) => {
+        ticket.distinct("slot.city").exec((err, doc) => {
+            if(err){
+                reject({error:err});
+            }
+            else{
+                resolve({result: doc, type: 'city'});
+            }
+        });
+    });
 };
 
 module.exports = {
     getAllData : (req, res) => {
-        var fromDate = new Date(), toDate = moment(fromDate).add(5, "days").endOf("day").toDate();
+        var fromDate = new Date(), toDate = moment(fromDate).add(5, "days").endOf("day").toDate(), city = req.query.city || "chennai";
         
         if(req.query.fromDate){
             try{
@@ -88,11 +101,12 @@ module.exports = {
             }
         
         }
-
+        
         var jobs = [
-                        findMovieWithHighestBuyers("buy",{fromDate,toDate}), 
-                        findMovieWithHighestBuyers("sell",{fromDate,toDate}),
-                        findTrend({fromDate,toDate})
+                        findMovieWithHighestBuyers("buy",{fromDate,toDate,city}), 
+                        findMovieWithHighestBuyers("sell",{fromDate,toDate,city}),
+                        findTrend({fromDate,toDate,city}),
+                        getCityList()
                     ], 
                     resultData = [];
         bluebird.mapSeries(jobs, (data) => {

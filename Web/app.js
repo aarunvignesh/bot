@@ -4,7 +4,32 @@ var express = require('express'),
     path = require('path'),
     app = express(),
     routes = require('./Routes'),
-    settings = require('./settings.json');
+    settings = require('./settings.json'),
+    session = require('express-session'),
+    passport = require('passport'),
+    cookie = require('cookie-parser'),
+    appAuthentication = require('./Shared/passport');
+
+app.use(session({
+    secret: 'moviebotAwsChallenge',
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        secure:false,
+        maxAge:3 * 60 * 60 * 1000
+    }
+}));
+app.use(cookie());
+var passportInstance = passport;
+app.use(passportInstance.initialize());
+app.use(passportInstance.session());
+appAuthentication(passportInstance);
+
+app.get('/authenticate', passportInstance.authenticate('google', { 
+    scope: 'email profile',
+    successRedirect: '/auth/success',
+	failureRedirect: '/auth/error'
+}));
 
 function dburlformatter(db){
     var dbstring = '';

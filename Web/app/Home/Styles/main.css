@@ -57,3 +57,9 @@
     width: 100%;
     min-height: 500px;
 }
+
+.data-not-available{
+    font-weight: bold;
+    text-align: center;
+    vertical-align: center;
+}

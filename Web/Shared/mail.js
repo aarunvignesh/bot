@@ -3,13 +3,14 @@ var nodemailer = require('node-ses'),
     //nodemailer = require('nodemailer'),
     smtpTransport = require('nodemailer-smtp-transport'),
     bluebird = require('bluebird'),
+    moment = require("moment"),
     config = require('./../settings.json'); 
 
 mailStartTemplate = `
 Hi {{name}},
 <br/>
 <br/>
-This is a mail regarding your Movie Ticket Resale
+This is a mail regarding your Movie Ticket Resale for your movie {{movie}} on {{date}}
 <br/>
 <br/>
 Your Transaction Id: <b>{{uniqueId}}</b> 
@@ -84,6 +85,8 @@ module.exports = {
         return new bluebird((resolve,reject) => {
             mailStartTemplate = mailStartTemplate.replace('{{name}}', document.slot.name || '');
             mailStartTemplate = mailStartTemplate.replace('{{uniqueId}}', document.uniqueId || '');
+            mailStartTemplate = mailStartTemplate.replace('{{movie}}', document.slot.movie.toUpperCase() || '');
+            mailStartTemplate = mailStartTemplate.replace('{{date}}', moment(document.time).format("LLLL") || '');
             var tableBody = result.map((value, index) => '<tr>'
                                     +'<td style="width:10%;border:1px solid black;">'+ (index + 1) +'</td>'
                                     +'<td style="width:15%;border:1px solid black;">'+ value.slot.name +'</td>'

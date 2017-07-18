@@ -23,7 +23,7 @@ module.exports = (input) => {
             break;
     };
 
-    reply = (reply ? reply : 'Yes,')+' How can I help you today? :wave::skin-tone-3:';
+    reply = (reply ? reply : 'Yes,')+' How can I help you today? :wave::skin-tone-3: \n I can help you to buy or sell your movie tickets \n Help: \n \"I would like to sell\" or \"buy tickets\" or \"I want to remove the post\"';
     return output.closeSlot(reply);
 };
 

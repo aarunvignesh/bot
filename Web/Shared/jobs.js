@@ -8,18 +8,6 @@ module.exports = {
 
         var dayStartTime = moment(new Date(document.time)).startOf('day');
 
-        console.log({
-                        time:{
-                                $lt: new Date(document.time), 
-                                $gt: dayStartTime.toDate()
-                        }, 
-                        isenabled: true,
-                        type:'buy',
-                        //referCount:{$lt:5}, 
-                        'slot.movie':document.slot.movie.toLowerCase(),
-                        'slot.ticketcount': document.slot.ticketcount,
-                        //userId:{$ne:document.userId}
-        });
         tickets.find({
                         time:{
                                 $lt: new Date(document.time), 
@@ -27,10 +15,10 @@ module.exports = {
                         }, 
                         isenabled: true,
                         type:'buy',
-                      //  referCount:{$lt:5}, 
+                         referCount:{$lt:5}, 
                         'slot.movie':document.slot.movie.toLowerCase(),
                         'slot.ticketcount': document.slot.ticketcount,
-                        //userId:{$ne:document.userId}
+                        userId:{$ne:document.userId}
         })
         .sort({$natural: -1})
         .exec(function(error, result){
@@ -104,19 +92,7 @@ module.exports = {
 
     findSellers : (document) => {
             var dayEndTime = moment(new Date(document.time)).endOf('day');
-           
-            console.log({
-                            time:{
-                                    $gt: document.time, 
-                                    $lt: dayEndTime.toDate()
-                            }, 
-                            isenabled: true,
-                            type:'sell',
-                            referCount:{$lt:5}, 
-                            'slot.movie':document.slot.movie.toLowerCase(),
-                            'slot.ticketcount': document.slot.ticketcount,
-                            //userId:{$ne:document.userId}
-            });
+        
             tickets.find({
                             time:{
                                     $gt: document.time, 
@@ -127,7 +103,7 @@ module.exports = {
                             referCount:{$lt:5}, 
                             'slot.movie':document.slot.movie.toLowerCase(),
                             'slot.ticketcount': document.slot.ticketcount,
-                            //userId:{$ne:document.userId}
+                            userId:{$ne:document.userId}
             })
             .sort({$natural: -1})
             .exec(function(error, result){

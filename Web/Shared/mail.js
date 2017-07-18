@@ -57,7 +57,7 @@ transporter = nodemailer.createClient({ key: config.aws.ses.accessKey, secret: c
                 cc: '',
                 bcc: ['a.s.arunvignesh@gmail.com'],
                 to: to,
-                subject: 'Regarding ',
+                subject: 'Regarding Your Movie ticket resale',
                 //text: 'Shiva',
                 message: body
                 }, 

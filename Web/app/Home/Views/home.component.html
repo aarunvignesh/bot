@@ -1,0 +1,169 @@
+<div fxLayout="column">
+    <div fxFlex="10" fxLayout="row">
+            <div fxFlex="70">
+                <div fxFlex="80" fxLayout="row">
+                    <a style="background:url(./images/ticket.png);background-size: contain;background-repeat: no-repeat;" href="./" fxFlex="10"></a>
+                </div>
+                <div fxFlex="20" fxLayout="row" fxLayoutAlign="end center">
+                    <md-select placeholder="City" [(ngModel)]="selectedCity" (ngModelChange)="dateChanged()">
+                    <md-option *ngFor="let city of cityList" [value]="city" style="text-transform:capitalize;">
+                        {{ city }}
+                    </md-option>
+                    </md-select>
+                </div>
+            </div>
+            <div fxFlex="30" fxLayout="row">
+                <div fxFlex="10"></div>
+                <div fxFlex="35">
+                    <md-input-container>
+                        <input mdInput readonly="true" [(ngModel)]="fromDate" (ngModelChange)="dateChanged()"  [mdDatepicker]="fromPicker" placeholder="Choose a from date">
+                        <button mdSuffix [mdDatepickerToggle]="fromPicker"></button>
+                        </md-input-container>
+                    <md-datepicker #fromPicker></md-datepicker>
+                </div>
+                <div fxFlex="35">
+                    <md-input-container>
+                        <input mdInput readonly="true" [(ngModel)]="toDate" (ngModelChange)="dateChanged()" [mdDatepicker]="toPicker" placeholder="Choose a to date">
+                        <button mdSuffix [mdDatepickerToggle]="toPicker"></button>
+                        </md-input-container>
+                    <md-datepicker #toPicker></md-datepicker>
+                </div>
+                <a fxFlex="20" style="background:url(./images/logout.png);background-size: contain;background-repeat: no-repeat;" href="./logout"></a>
+            </div>
+    </div>
+    <div id="container" fxFlex="90"  fxLayout="row">
+    <div fxFlex="20" class="chartContainer" fxLayoutGap="5px" fxLayout="column">
+        <md-card fxFlex="50" fxLayout="row">
+            <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
+                <md-spinner fxFLex="25"></md-spinner>
+            </div>
+            <div fxFlex fxLayout="row" *ngIf="chartData">
+                <div class="data-not-available" *ngIf="chartData && !displayBuyLegend">
+                    Data Not Available
+                </div>
+                <div fxFlex fxLayout="column" class="legend-container"  *ngIf="displayBuyLegend">
+                    <span fxFlex="60"  [innerHtml]="displayBuyLegend.count"></span>
+                    <span fxFlex="10" > Tickets Needed For </span>
+                    <span fxFlex="20"  [innerHtml]="displayBuyLegend.movie"></span>
+                    <span fxFlex="10"> Avg. Expected Schow Time : {{ displayBuyLegend && displayBuyLegend.hour | number : '1.2-2'}}</span>
+                </div>
+            </div>
+        </md-card>
+        <md-card fxFlex="50" fxLayout="row">
+            <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
+                <md-spinner fxFLex="25"></md-spinner>
+            </div>
+            <div fxFlex *ngIf="chartData">
+                <div class="data-not-available" *ngIf="chartData && !displaySellLegend">
+                    Data Not Available
+                </div>
+                <div fxFlex fxLayout="column" class="legend-container"  *ngIf="displaySellLegend">
+                    <span fxFlex="60"  [innerHtml]="displaySellLegend.count"></span>
+                    <span fxFlex="10" > Tickets are in sale </span>
+                    <span fxFlex="20" [innerHtml]="displaySellLegend.movie"></span>
+                    <span fxFlex="10"> Avg. Selling Schow Time : {{ displaySellLegend && displaySellLegend.hour | number : '1.2-2'}}</span>
+                </div>
+            </div>
+        </md-card>
+    </div>
+    <div fxFlex="50" class="chartContainer" fxLayoutGap="5px" fxLayout="column">
+         
+        <md-card fxFlex="60" fxLayoutAlign="center center" fxLayout="row">
+            <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
+                <md-spinner fxFLex="25"></md-spinner>
+            </div>
+            <div class="data-not-available" *ngIf="chartData && lineChartData.length == 0">
+                    Data Not Available
+            </div>
+            <canvas *ngIf="lineChartData.length > 0" fxFlex="85" fxLayout="row" baseChart 
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+        </md-card>
+        <div fxLayoutGap="5px" fxLayout="row" fxFlex="40">
+            
+            <md-card fxFlex="60" fxLayout="column">
+                <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
+                    <md-spinner fxFLex="25"></md-spinner>
+                </div>
+                <div class="data-not-available" *ngIf="chartData && pieChartData.length == 0">
+                    Data Not Available
+                </div>
+                <canvas *ngIf="pieChartData.length > 0" fxFlex="30" baseChart 
+                [data]="barChartData"
+                [labels]="barChartLabels"
+                [chartType]="barChartType"></canvas>
+            </md-card>
+            <md-card fxFlex="40" fxLayout="row">
+                <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!chartData">
+                    <md-spinner fxFLex="25"></md-spinner>
+                </div>
+                <div class="data-not-available" *ngIf="chartData && tableData.length == 0">
+                    Data Not Available
+                </div>
+                <div fxFlex fxLayout="column" style="overflow:auto;" *ngIf="tableData.length > 0">
+                    <div class="table-header" fxLayout="row">
+                            <h6  fxLayout="row" fxLayoutAlign="center center" fxFlex="40"> Date </h6>
+                            <h6  fxLayout="row" fxLayoutAlign="center center" fxFlex="30"> Type </h6>
+                            <h6  fxLayout="row" fxLayoutAlign="center center" fxFlex="30"> Count </h6>
+                    </div>
+                    <div fxFlex="grow" fxLayout="column">
+                        
+                        <div class="table" fxFlex="grow" fxLayout="column" *ngFor="let table of tableData">
+                            <span style="min-height:25px;font-weight:bold;text-transform:capitalize;"  fxLayout="row" fxLayoutAlign="center center" [innerHtml]="table.movie"></span>   
+                            <div class="table-row" fxFlex="grow" fxLayout="row" *ngFor="let data of table.data">
+                                        <span fxFlex="40" fxLayout="row" fxLayoutAlign="center center" [innerHtml]="data.minDate"></span>
+                                        <span fxFlex="30" fxLayout="row" fxLayoutAlign="center center" [innerHtml]="data.type"></span>
+                                        <span fxFlex="30" fxLayout="row" fxLayoutAlign="center center"  [innerHtml]="data.count"></span>  
+                            </div>
+
+                            
+                            
+                        </div>   
+                    </div>    
+                </div>
+            </md-card>
+   
+    </div>
+    </div>
+    <div fxFlex="30" class="chartContainer" fxLayout="row">
+        <md-card fxFlex fxLayout="row">
+            <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="!pieChartData">
+                <md-spinner fxFLex="25"></md-spinner>
+            </div>
+            <div fxFlex fxLayout="row" *ngIf="pieChartData">
+                <div class="data-not-available" fxFlex *ngIf="chartData && pieChartData.length == 0">
+                    Data Not Available
+                </div>
+                <div fxFlex *ngIf="pieChartData.length > 0">
+                    <canvas baseChart
+                    [data]="pieChartData"
+                    [labels]="pieChartLabels"
+                    [chartType]="pieChartType"></canvas>
+                </div>
+            </div>
+        </md-card>
+    </div>
+</div>
+</div>
+<!--<h1>Shiva</h1>-->
+
+  <!--<div class="row">
+  <div class="col-md-6">-->
+    
+   
+  <!--</div>
+  <div class="col-md-6" style="margin-bottom: 10px">
+    <table class="table table-responsive table-condensed">
+      <tr>
+        <th *ngFor="let label of lineChartLabels">{{label}}</th>
+      </tr>
+      <tr *ngFor="let d of lineChartData">
+        <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+      </tr>
+    </table>
+    <button (click)="randomize()">CLICK</button>
+  </div>
+</div>-->

@@ -1,0 +1,11 @@
+{
+    "port":5200,
+    "db":{
+        "url":"127.0.0.1",
+        "port":27017,
+        "database":"bot",
+        "username":"",
+        "password":""
+    },
+    "token":"227c12d8-00fc-4b27-8c96-2cd8bbdf6f1f"
+}
